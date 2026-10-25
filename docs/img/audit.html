@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>tfredact — audit</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin:0; padding:48px 0; background:#010409; color:#e6edf3;
+         font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 24px; }
+  h1 { font-size:26px; margin:0 0 6px; }
+  p.sub { color:#8b949e; margin:0 0 28px; }
+  .term { background:#0d1117; border:1px solid #21262d; border-radius:10px;
+           box-shadow:0 24px 48px rgba(0,0,0,.5); overflow-x:auto; padding:26px; }
+  pre { margin:0; font-family:"SF Mono",Menlo,Consolas,"DejaVu Sans Mono",monospace;
+         font-size:13.5px; line-height:1.55; white-space:pre; }
+  .note { color:#6e7681; font-size:13px; margin-top:14px; line-height:1.6; }
+  code { background:#161b22; padding:1px 5px; border-radius:4px; font-size:12.5px; }
+</style></head><body><div class="wrap">
+  <h1>tfredact — audit</h1>
+  <p class="sub">Live output, captured from the CLI.</p>
+  <div class="term"><pre> tfredact audit  1 .tf file(s) scanned, 13 block(s)
+────────────────────────────────────────────────────────────────────────
+ ✗ examples/main.tf:45  variable database_password
+     variable holds a secret-looking value but is not declared sensitive = true; terraform will print it in cleartext.
+     type: string
+ ✗ examples/main.tf:49  variable api_token
+     variable holds a secret-looking value but is not declared sensitive = true; terraform will print it in cleartext.
+     type: string
+ ✗ examples/main.tf:53  variable ssh_private_key
+     variable holds a secret-looking value but is not declared sensitive = true; terraform will print it in cleartext.
+     type: string
+ ✗ examples/main.tf:57  variable smtp_password
+     variable holds a secret-looking value but is not declared sensitive = true; terraform will print it in cleartext.
+     type: string
+ ✗ examples/main.tf:61  variable webhook_token
+     variable holds a secret-looking value but is not declared sensitive = true; terraform will print it in cleartext.
+     type: string
+ ✗ examples/main.tf:76  output database_password
+     output holds a secret-looking value but is not declared sensitive = true; terraform will print it in cleartext.
+────────────────────────────────────────────────────────────────────────
+ 6 issue(s): 0 hardcoded, 6 unmarked
+────────────────────────────────────────────────────────────────────────</pre></div>
+  <p class="note">``tfredact audit`` on ``examples/main.tf``: variables and outputs that look like secrets but are not declared ``sensitive = true``.</p>
+</div></body></html>

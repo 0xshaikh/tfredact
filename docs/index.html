@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>tfredact — find, redact and audit secrets in Terraform state</title>
+<meta name="description" content="Scan Terraform state and plan files for secrets, redact them into shareable copies, and audit sensitive = true coverage. Zero dependencies, single Python CLI.">
+<style>
+  :root { color-scheme: dark; --bg:#0d1117; --panel:#161b22; --line:#21262d;
+          --fg:#e6edf3; --dim:#8b949e; --red:#ff7b72; --green:#7ee787;
+          --yellow:#f0c674; --blue:#79c0ff; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+         font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+         line-height:1.6; }
+  a { color:var(--blue); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  .wrap { max-width:1000px; margin:0 auto; padding:0 24px; }
+  header { padding:16px 0; border-bottom:1px solid var(--line); }
+  nav { display:flex; align-items:center; gap:24px; }
+  nav .brand { font-weight:600; font-size:16px; }
+  nav .links { display:flex; gap:18px; margin-left:auto; font-size:14px; }
+  nav .links a { color:var(--dim); }
+  nav .links a:hover { color:var(--fg); text-decoration:none; }
+  .hero { padding:72px 0 48px; }
+  .hero h1 { font-size:44px; line-height:1.15; margin:0 0 18px; letter-spacing:-0.02em; }
+  .hero p { font-size:19px; color:var(--dim); max-width:640px; margin:0 0 28px; }
+  .cta { display:flex; gap:14px; flex-wrap:wrap; }
+  .btn { display:inline-block; padding:11px 20px; border-radius:8px; font-size:15px;
+         border:1px solid var(--line); background:var(--panel); color:var(--fg); }
+  .btn.primary { background:var(--green); color:#0d1117; border-color:var(--green); font-weight:600; }
+  .btn code { background:transparent; padding:0; font-size:15px; }
+  .term { background:#010409; border:1px solid var(--line); border-radius:10px;
+          box-shadow:0 24px 48px rgba(0,0,0,.45); overflow-x:auto; padding:22px; margin:26px 0 8px; }
+  pre { margin:0; font-family:"SF Mono",Menlo,Consolas,"DejaVu Sans Mono",monospace;
+        font-size:13px; line-height:1.55; white-space:pre; }
+  .red { color:var(--red); } .green { color:var(--green); }
+  .yellow { color:var(--yellow); } .dim { color:var(--dim); }
+  h2 { font-size:26px; margin:64px 0 14px; letter-spacing:-0.01em; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin:22px 0; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:18px; }
+  .card h3 { margin:0 0 8px; font-size:15px; font-family:"SF Mono",Menlo,Consolas,monospace; color:var(--blue); }
+  .card p { margin:0; font-size:14px; color:var(--dim); }
+  code { background:var(--panel); border:1px solid var(--line); padding:1px 6px; border-radius:5px;
+         font-size:13px; font-family:"SF Mono",Menlo,Consolas,monospace; }
+  .note { color:var(--dim); font-size:13px; margin:8px 0 0; }
+  footer { border-top:1px solid var(--line); padding:28px 0; margin-top:72px;
+           color:var(--dim); font-size:14px; }
+  img.shot { width:100%; border:1px solid var(--line); border-radius:10px; display:block; }
+</style>
+</head>
+<body>
+<header><div class="wrap"><nav>
+  <span class="brand">tfredact</span>
+  <span class="links">
+    <a href="https://github.com/0xshaikh/tfredact">GitHub</a>
+    <a href="https://github.com/0xshaikh/tfredact/issues">Issues</a>
+    <a href="#commands">Commands</a>
+    <a href="#detection">Detection</a>
+  </span>
+</nav></div></header>
+
+<div class="wrap">
+  <section class="hero">
+    <h1>Secrets in your Terraform state, found —<br>then redacted so you can share the file.</h1>
+    <p>A single Python CLI. Scan <code>.tfstate</code> and <code>terraform plan</code> output for
+       credentials, write structurally identical copies with the secrets masked, and audit
+       <code>sensitive = true</code> coverage. Zero runtime dependencies, no daemon, no network
+       access, no configuration.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/0xshaikh/tfredact">★ View on GitHub</a>
+      <a class="btn" href="https://github.com/0xshaikh/tfredact">pip install tfredact</a>
+    </div>
+    <div class="term"><pre><span class="dim">$</span> tfredact scan examples/clean.tfstate
+<span class="blue"> tfredact </span> examples/clean.tfstate
+────────────────────────────────────────────────────────────────────────
+ <span class="green">✓ No secrets detected.</span>
+   <span class="dim">scanned 11 resources / 11 instances</span>
+────────────────────────────────────────────────────────────────────────
+<span class="dim">$</span> tfredact scan examples/sample.tfstate
+<span class="blue"> tfredact </span> examples/sample.tfstate
+────────────────────────────────────────────────────────────────────────
+ <span class="red">✗ 32 secret(s) found across 18 type(s)</span>
+────────────────────────────────────────────────────────────────────────
+ <span class="red">● password</span>        <span class="dim">aws_rds_instance.appdb</span>
+   value: <span class="yellow">P*************e</span>
+   detector: attribute_name  <span class="dim">[marked sensitive — still stored in state]</span>
+ <span class="red">● aws_access_key_id</span>  <span class="dim">aws_iam_access_key.app_db_user</span>
+   value: <span class="yellow">AKIAI******************LE</span>
+   detector: aws_access_key_id  <span class="red">[NOT marked sensitive]</span>
+────────────────────────────────────────────────────────────────────────
+ <span class="yellow">26 marked sensitive · 6 NOT marked sensitive</span></pre></div>
+  </section>
+
+  <h2>Three commands</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>tfredact scan &lt;paths&gt;</h3>
+      <p>Finds secrets in state files, plan files and plan console logs. Prints
+         resource address, attribute path, type, and whether Terraform had marked it
+         sensitive. <code>--json</code> for CI aggregation.</p>
+    </div>
+    <div class="card">
+      <h3>tfredact redact &lt;state&gt;</h3>
+      <p>Writes a structurally identical copy with secrets replaced by
+         <code>[REDACTED:type]</code> markers. Same resources, same keys, valid JSON —
+         diffs and review still work, the credential does not.</p>
+    </div>
+    <div class="card">
+      <h3>tfredact plan &lt; plan.txt</h3>
+      <p>Stdin-to-stdout filter for <code>terraform plan</code> console output. Preserves
+         every line, line numbers, <code>+</code>/<code>~</code> symbols and the summary —
+         only the secret values change.</p>
+    </div>
+    <div class="card">
+      <h3>tfredact audit &lt;dir&gt;</h3>
+      <p>Flags <code>variable</code> and <code>output</code> blocks that look like secrets but
+         lack <code>sensitive = true</code>, plus literal secrets hardcoded in resource
+         attributes. No HCL parser, no Terraform binary.</p>
+    </div>
+  </div>
+
+  <h2 id="detection">Precision-first detection</h2>
+  <p>Two layers run in a deliberate order: precise value-shape matches first
+     (<code>AKIA...</code>, PEM headers, JWT structure), then context typing from the attribute
+     name and resource type — which is what catches a generated credential like
+     <code>Pr0d!AppDb2026#Secure</code> that has no recognisable prefix at all. Generic entropy is
+     the last resort and is never applied to known non-secret attributes.</p>
+  <p><code>base64_encoded_blob</code> is not a terminal type: payloads are decoded and the
+     decoded contents are scanned, so a password hidden inside a user-data script is reported
+     as <code>env_assignment_secret</code> at its real offset rather than once as "some base64".</p>
+
+  <h2>Built around a control fixture</h2>
+  <p>The test suite encodes one rule that matters more than coverage:
+     <code>examples/clean.tfstate</code> is packed with deliberately tricky non-secrets — RSA
+     public keys, long ARNs, high-entropy KMS key material, DSNs with no credentials — and it
+     must yield exactly zero findings. Every new detector has to survive it, so the scanner
+     stays quiet on clean infrastructure.</p>
+
+  <h2>Limitations, stated plainly</h2>
+  <ul>
+    <li>It is a scanner, not a policy engine. It cannot tell you whether a credential is
+        valid, expired or already rotated — that requires calling the provider.</li>
+    <li>Detection is pattern-based. It will not find a secret stored under a name and shape
+        that looks nothing like a secret, and there is no way to make it do so without
+        accepting false positives.</li>
+    <li><code>sensitive = true</code> is a logging control, not encryption. A secret Terraform
+        believes is sensitive is still stored in full in the state file, and tfredact reports
+        it as such rather than treating the marker as a fix.</li>
+  </ul>
+
+  <footer>
+    tfredact — MIT License · <a href="https://github.com/0xshaikh/tfredact">github.com/0xshaikh/tfredact</a>
+    · Python 3.9+ · zero runtime dependencies
+  </footer>
+</div>
+</body>
+</html>

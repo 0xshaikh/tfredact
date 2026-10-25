@@ -1,0 +1,324 @@
+{
+  "state_secrets": [
+    {
+      "resource": "random_password.db_master",
+      "attribute_path": "attributes.result",
+      "secret_type": "random_password",
+      "value_snippet": "R7#mQ2xL9pV4nB8sD1wY6cT0kZ3hAe",
+      "entropy_approx": 4.91
+    },
+    {
+      "resource": "aws_rds_instance.appdb",
+      "attribute_path": "attributes.master_user_password",
+      "secret_type": "password",
+      "value_snippet": "Pr0d!AppDb2026#Secure",
+      "entropy_approx": 3.92
+    },
+    {
+      "resource": "aws_rds_instance.appdb",
+      "attribute_path": "attributes.password",
+      "secret_type": "password",
+      "value_snippet": "Pr0d!AppDb2026#Secure",
+      "entropy_approx": 3.92
+    },
+    {
+      "resource": "aws_rds_instance.appdb",
+      "attribute_path": "attributes.encrypted_password",
+      "secret_type": "encrypted_password",
+      "value_snippet": "v1:K8j2mX7qL4nP9sR2tU5vW8yZ1aB3cD6eF0gH3…",
+      "entropy_approx": 5.14
+    },
+    {
+      "resource": "aws_iam_access_key.app_db_user",
+      "attribute_path": "attributes.secret",
+      "secret_type": "aws_secret_access_key",
+      "value_snippet": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+      "entropy_approx": 4.66
+    },
+    {
+      "resource": "aws_iam_access_key.app_db_user",
+      "attribute_path": "attributes.secret_key",
+      "secret_type": "aws_secret_access_key",
+      "value_snippet": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+      "entropy_approx": 4.66
+    },
+    {
+      "resource": "aws_iam_access_key.app_db_user",
+      "attribute_path": "attributes.id",
+      "secret_type": "aws_access_key_id",
+      "value_snippet": "AKIAIOSFODNN7EXAMPLE",
+      "entropy_approx": 3.68
+    },
+    {
+      "resource": "aws_iam_access_key.app_db_user",
+      "attribute_path": "attributes.key_id",
+      "secret_type": "aws_access_key_id",
+      "value_snippet": "AKIAIOSFODNN7EXAMPLE",
+      "entropy_approx": 3.68
+    },
+    {
+      "resource": "aws_iam_access_key.app_db_user",
+      "attribute_path": "attributes.secret_key_id",
+      "secret_type": "aws_access_key_id",
+      "value_snippet": "AKIAIOSFODNN7EXAMPLE",
+      "entropy_approx": 3.68
+    },
+    {
+      "resource": "aws_secretsmanager_secret_version.appdb_credentials",
+      "attribute_path": "attributes.secret_string",
+      "secret_type": "secret_string_blob",
+      "value_snippet": "{\"username\":\"appdb_admin\",\"password\":\"Pr…",
+      "entropy_approx": 5.79
+    },
+    {
+      "resource": "aws_secretsmanager_secret_version.appdb_credentials",
+      "attribute_path": "attributes.secret_string.password",
+      "secret_type": "password",
+      "value_snippet": "Pr0d!AppDb2026#Secure",
+      "entropy_approx": 3.92
+    },
+    {
+      "resource": "aws_secretsmanager_secret_version.appdb_credentials",
+      "attribute_path": "attributes.secret_string.dsn",
+      "secret_type": "connection_string",
+      "value_snippet": "postgres://appdb_admin:Pr0d!AppDb2026%23…",
+      "entropy_approx": 5.05
+    },
+    {
+      "resource": "aws_secretsmanager_secret_version.appdb_credentials",
+      "attribute_path": "attributes.secret_string.jwt_secret",
+      "secret_type": "jwt",
+      "value_snippet": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ…",
+      "entropy_approx": 5.55
+    },
+    {
+      "resource": "aws_instance.app_worker",
+      "attribute_path": "attributes.user_data",
+      "secret_type": "base64_encoded_blob",
+      "value_snippet": "#!/bin/bash\nexport SCHILY_TOKEN=ghw_4u3t…",
+      "entropy_approx": 5.22
+    },
+    {
+      "resource": "aws_db_instance.legacy_staging_db",
+      "attribute_path": "attributes.connection_string",
+      "secret_type": "connection_string",
+      "value_snippet": "mysql://legacy_svc:m4g!C5tr1a!2026@legac…",
+      "entropy_approx": 4.91
+    },
+    {
+      "resource": "aws_db_instance.legacy_staging_db",
+      "attribute_path": "attributes.master_user_password",
+      "secret_type": "password",
+      "value_snippet": "m4g!C5tr1a!2026",
+      "entropy_approx": 3.64
+    },
+    {
+      "resource": "aws_db_instance.legacy_staging_db",
+      "attribute_path": "attributes.password",
+      "secret_type": "password",
+      "value_snippet": "m4g!C5tr1a!2026",
+      "entropy_approx": 3.64
+    },
+    {
+      "resource": "vault_generic_secret.worker_runtime",
+      "attribute_path": "attributes.data.api_token",
+      "secret_type": "api_token",
+      "value_snippet": "tok_live_7AbC9xY2zK4mN6pQ8rS1tU3vW5xZ7aB…",
+      "entropy_approx": 5.15
+    },
+    {
+      "resource": "vault_generic_secret.worker_runtime",
+      "attribute_path": "attributes.data.certificate",
+      "secret_type": "certificate_pem",
+      "value_snippet": "-----BEGIN CERTIFICATE-----\nMIIDXTCCAkWg…",
+      "entropy_approx": 5.0
+    },
+    {
+      "resource": "vault_generic_secret.worker_runtime",
+      "attribute_path": "attributes.data.dsn",
+      "secret_type": "connection_string",
+      "value_snippet": "postgres://svc_user:P4th!Find3r@vault-db…",
+      "entropy_approx": 4.74
+    },
+    {
+      "resource": "vault_generic_secret.worker_runtime",
+      "attribute_path": "attributes.data.github_pat",
+      "secret_type": "github_pat",
+      "value_snippet": "github_pat_11ABXYQ4Z2gh7mK8nR5pQ2sT9vW6x…",
+      "entropy_approx": 5.31
+    },
+    {
+      "resource": "vault_generic_secret.worker_runtime",
+      "attribute_path": "attributes.data.key_material",
+      "secret_type": "key_material",
+      "value_snippet": "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNk…",
+      "entropy_approx": 4.65
+    },
+    {
+      "resource": "vault_generic_secret.worker_runtime",
+      "attribute_path": "attributes.data.openai_key",
+      "secret_type": "openai_api_key",
+      "value_snippet": "sk-proj-7AbC9xY2zK4mN6pQ8rS1tU3vW5xZ7aB9…",
+      "entropy_approx": 5.39
+    },
+    {
+      "resource": "vault_generic_secret.worker_runtime",
+      "attribute_path": "attributes.data.private_key",
+      "secret_type": "private_key_pem",
+      "value_snippet": "-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIB…",
+      "entropy_approx": 3.89
+    },
+    {
+      "resource": "vault_generic_secret.worker_runtime",
+      "attribute_path": "attributes.data.redis_password",
+      "secret_type": "password",
+      "value_snippet": "R3d1s!Cache#2026x",
+      "entropy_approx": 3.97
+    },
+    {
+      "resource": "vault_generic_secret.worker_runtime",
+      "attribute_path": "attributes.data.secret_value",
+      "secret_type": "secret_value",
+      "value_snippet": "s3cr3t-v1-9f8e7d6c5b4a39281706f5e4d3c2b1…",
+      "entropy_approx": 4.31
+    },
+    {
+      "resource": "vault_generic_secret.worker_runtime",
+      "attribute_path": "attributes.data.slack_webhook",
+      "secret_type": "slack_webhook_url",
+      "value_snippet": "hYq4pX7sR2mV9t…",
+      "entropy_approx": 5.27
+    },
+    {
+      "resource": "vault_generic_secret.worker_runtime",
+      "attribute_path": "attributes.data.uri",
+      "secret_type": "connection_string",
+      "value_snippet": "amqp://svc:Amq!P2ss2026@broker.internal.…",
+      "entropy_approx": 4.66
+    },
+    {
+      "resource": "vault_generic_secret.worker_runtime",
+      "attribute_path": "attributes.data_json",
+      "secret_type": "secret_string_blob",
+      "value_snippet": "{\n    \"api_token\": \"tok_live_7AbC9xY2zK4…",
+      "entropy_approx": 5.38
+    }
+  ],
+  "plan_secrets": [
+    {
+      "line_number": 32,
+      "secret_type": "connection_string",
+      "value_snippet": "mysql://legacy_svc:m4g!C5tr1a!2026@legacy-staging."
+    },
+    {
+      "line_number": 46,
+      "secret_type": "aws_secret_access_key",
+      "value_snippet": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+    },
+    {
+      "line_number": 47,
+      "secret_type": "aws_secret_access_key",
+      "value_snippet": "nK4pX8sQ2mV9tR1yZ6wE3bC7fH0jL5dG"
+    },
+    {
+      "line_number": 58,
+      "secret_type": "password",
+      "value_snippet": "Pr0d!AppDb2026#Secure"
+    },
+    {
+      "line_number": 101,
+      "secret_type": "github_token",
+      "value_snippet": "ghp_7AbC9xY2zK4mN6pQ8rS1tU3vW5xZ7aB9cD"
+    },
+    {
+      "line_number": 102,
+      "secret_type": "jwt",
+      "value_snippet": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
+    },
+    {
+      "line_number": 103,
+      "secret_type": "password",
+      "value_snippet": "R3w1s!Cache#2026x"
+    },
+    {
+      "line_number": 104,
+      "secret_type": "aws_access_key_id",
+      "value_snippet": "AKIAIOSFODNN7EXAMPLE"
+    },
+    {
+      "line_number": 121,
+      "secret_type": "slack_webhook_url",
+      "value_snippet": "SL3ckW3bHookT0k3n-Abc9"
+    },
+    {
+      "line_number": 122,
+      "secret_type": "password",
+      "value_snippet": "Pr0d!AppDb2026#Secure"
+    }
+  ],
+  "unmarked_sensitive": [
+    {
+      "name": "database_password",
+      "kind": "variable",
+      "file": "main.tf",
+      "line": 45
+    },
+    {
+      "name": "api_token",
+      "kind": "variable",
+      "file": "main.tf",
+      "line": 49
+    },
+    {
+      "name": "ssh_private_key",
+      "kind": "variable",
+      "file": "main.tf",
+      "line": 53
+    },
+    {
+      "name": "smtp_password",
+      "kind": "variable",
+      "file": "main.tf",
+      "line": 57
+    },
+    {
+      "name": "webhook_token",
+      "kind": "variable",
+      "file": "main.tf",
+      "line": 61
+    },
+    {
+      "name": "database_password",
+      "kind": "output",
+      "file": "main.tf",
+      "line": 76
+    }
+  ],
+  "clean_state_findings_expected": 0,
+  "secret_type_counts": {
+    "api_token": 1,
+    "aws_access_key_id": 3,
+    "aws_secret_access_key": 2,
+    "base64_encoded_blob": 1,
+    "certificate_pem": 1,
+    "connection_string": 4,
+    "encrypted_password": 1,
+    "github_pat": 1,
+    "jwt": 1,
+    "key_material": 1,
+    "openai_api_key": 1,
+    "password": 6,
+    "private_key_pem": 1,
+    "random_password": 1,
+    "secret_string_blob": 2,
+    "secret_value": 1,
+    "slack_webhook_url": 1
+  },
+  "totals": {
+    "state_secret_findings": 29,
+    "state_secret_attribute_paths": 29,
+    "plan_secret_findings": 10,
+    "unmarked_sensitive_count": 6
+  },
+  "notes": "Sample pack for the tfmask Terraform secret-scanning CLI. sample.tfstate / clean.tfstate are valid Terraform state v4 (version 4, terraform_version 1.9.8, serial, lineage UUID, outputs, resources[]). sensitive_attributes entries use the real 'attributes.<name>' path form. clean.tfstate is the zero-false-positive control: no AKIA keys, no 40-char secret shapes, no credential-bearing DSNs, no PEM, no tokens - but it DOES retain an ssh-ed25519 public key and an ssh-rsa public key (vault data.public_key / data.ssh_keys) as intentional negative controls, since public keys are not secrets and a correct scanner must not flag them. All credential values are FAKE placeholders (AKIAIOSFODNN7EXAMPLE / wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY are the well-known AWS docs example pair; sk-proj-, ghp_, github_pat_, tok_live_, jwt and PEM bodies are synthetically shaped). plan-output.txt line numbers are 1-indexed and verified against the file. entropy_approx is Shannon entropy in bits/char over the decoded value (user_data entries are base64-decoded first)."
+}

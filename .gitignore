@@ -1,0 +1,42 @@
+# Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
+venv/
+env/
+.env
+
+# Packaging
+build/
+dist/
+*.egg-info/
+*.egg
+wheels/
+
+# Test / tool caches
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.tox/
+
+# Editors
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Local terraform output -- the thing this tool exists to redact
+*.tfstate
+*.tfstate.*
+!examples/*.tfstate
+*.tfplan
+!examples/*.tfplan
+*.tfrc
+crash.log
+crash.*.log

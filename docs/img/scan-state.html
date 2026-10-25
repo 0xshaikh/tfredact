@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>tfredact — scan-state</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin:0; padding:48px 0; background:#010409; color:#e6edf3;
+         font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 24px; }
+  h1 { font-size:26px; margin:0 0 6px; }
+  p.sub { color:#8b949e; margin:0 0 28px; }
+  .term { background:#0d1117; border:1px solid #21262d; border-radius:10px;
+           box-shadow:0 24px 48px rgba(0,0,0,.5); overflow-x:auto; padding:26px; }
+  pre { margin:0; font-family:"SF Mono",Menlo,Consolas,"DejaVu Sans Mono",monospace;
+         font-size:13.5px; line-height:1.55; white-space:pre; }
+  .note { color:#6e7681; font-size:13px; margin-top:14px; line-height:1.6; }
+  code { background:#161b22; padding:1px 5px; border-radius:4px; font-size:12.5px; }
+</style></head><body><div class="wrap">
+  <h1>tfredact — scan-state</h1>
+  <p class="sub">Live output, captured from the CLI.</p>
+  <div class="term"><pre> tfredact  examples/sample.tfstate
+────────────────────────────────────────────────────────────────────────
+ ✗ 32 secret(s) found across 18 type(s)
+────────────────────────────────────────────────────────────────────────
+ ● random_password            random_password.db_master
+     value: R7#mQ2xL...3hAe
+     detector: resource_type  [marked sensitive — still stored in state]
+ ● encrypted_password         aws_rds_instance.appdb
+     value: v1:K8j2m...K7lM
+     detector: attribute_name  [marked sensitive — still stored in state]
+ ● password                   aws_rds_instance.appdb
+     value: Pr0d!App...cure
+     detector: attribute_name  [marked sensitive — still stored in state]
+ ● password                   aws_rds_instance.appdb
+     value: Pr0d!App...cure
+     detector: attribute_name  [marked sensitive — still stored in state]
+ ● aws_access_key_id          aws_iam_access_key.app_db_user
+     value: AKIAIOSF...MPLE
+     detector: aws_access_key_id  [NOT marked sensitive]
+ ● aws_access_key_id          aws_iam_access_key.app_db_user
+     value: AKIAIOSF...MPLE
+     detector: aws_access_key_id  [NOT marked sensitive]
+ ● aws_secret_access_key      aws_iam_access_key.app_db_user
+     value: wJalrXUt...EKEY
+     detector: resource_type  [marked sensitive — still stored in state]
+ ● aws_secret_access_key      aws_iam_access_key.app_db_user
+     value: wJalrXUt...EKEY
+     detector: resource_type  [marked sensitive — still stored in state]
+ ● aws_access_key_id          aws_iam_access_key.app_db_user
+     value: AKIAIOSF...MPLE
+     detector: aws_access_key_id  [NOT marked sensitive]
+ ● secret_string_blob         aws_secretsmanager_secret_version.appdb_credentials[appdb]
+     value: {&quot;userna...bQ&quot;}
+     detector: nested_json  [marked sensitive — still stored in state]
+ ● password                   aws_secretsmanager_secret_version.appdb_credentials[appdb]
+     value: Pr0d!App...cure
+     detector: attribute_name  [marked sensitive — still stored in state]
+ ● connection_string          aws_secretsmanager_secret_version.appdb_credentials[appdb]
+     value: postgres...uire
+     detector: connection_string  [marked sensitive — still stored in state]
+ ● jwt                        aws_secretsmanager_secret_version.appdb_credentials[appdb]
+     value: eyJhbGci...83bQ
+     detector: jwt  [marked sensitive — still stored in state]
+ ● base64_encoded_blob        aws_instance.app_worker
+     value: IyEvYmlu...IDAK
+     detector: base64_decode  [NOT marked sensitive]
+ ● env_assignment_secret      aws_instance.app_worker
+     value: SCHILY_T...ss01
+     detector: env_assignment_secret  [NOT marked sensitive]
+ ● connection_string          aws_db_instance.legacy_staging_db[staging]
+     value: mysql://...y_db
+     detector: connection_string  [NOT marked sensitive]
+ ● password                   aws_db_instance.legacy_staging_db[staging]
+     value: m4g!C5tr1a!2026
+     detector: resource_type  [marked sensitive — still stored in state]
+ ● password                   aws_db_instance.legacy_staging_db[staging]
+     value: m4g!C5tr1a!2026
+     detector: resource_type  [marked sensitive — still stored in state]
+ ● api_token                  vault_generic_secret.worker_runtime
+     value: tok_live...B9cD
+     detector: attribute_name  [marked sensitive — still stored in state]
+ ● certificate_pem            vault_generic_secret.worker_runtime
+     value: -----BEG...----
+     detector: certificate_pem  [marked sensitive — still stored in state]
+ ● connection_string          vault_generic_secret.worker_runtime
+     value: postgres...uire
+     detector: connection_string  [marked sensitive — still stored in state]
+ ● github_pat                 vault_generic_secret.worker_runtime
+     value: github_p...8kL5
+     detector: github_pat  [marked sensitive — still stored in state]
+ ● key_material               vault_generic_secret.worker_runtime
+     value: MDEyMzQ1...ZWY=
+     detector: attribute_name  [marked sensitive — still stored in state]
+ ● openai_api_key             vault_generic_secret.worker_runtime
+     value: sk-proj-...6pQ8
+     detector: openai_api_key  [marked sensitive — still stored in state]
+ ● private_key_pem            vault_generic_secret.worker_runtime
+     value: -----BEG...----
+     detector: private_key_pem  [marked sensitive — still stored in state]
+ ● password                   vault_generic_secret.worker_runtime
+     value: R3d1s!Ca...026x
+     detector: attribute_name  [marked sensitive — still stored in state]
+ ● secret_value               vault_generic_secret.worker_runtime
+     value: s3cr3t-v...b1a0
+     detector: attribute_name  [marked sensitive — still stored in state]
+ ● slack_webhook_url          vault_generic_secret.worker_runtime
+     value: hYq4pX7s...0dEf
+     detector: attribute_name  [marked sensitive — still stored in state]
+ ● connection_string          vault_generic_secret.worker_runtime
+     value: amqp://s...prod
+     detector: connection_string  [marked sensitive — still stored in state]
+ ● secret_string_blob         vault_generic_secret.worker_runtime
+     value: {
+     detector: nested_json  [marked sensitive — still stored in state]
+ ● api_token                  vault_generic_secret.worker_runtime
+     value: tok_live...B9cD
+     detector: attribute_name  [marked sensitive — still stored in state]
+ ● password                   vault_generic_secret.worker_runtime
+     value: R3w1s!Ca...026x
+     detector: attribute_name  [marked sensitive — still stored in state]
+────────────────────────────────────────────────────────────────────────
+ 26 marked sensitive · 6 NOT marked sensitive
+ by type: password×7, connection_string×4, aws_access_key_id×3, aws_secret_access_key×2, secret_string_blob×2, api_token×2, random_password×1, encrypted_password×1, jwt×1, base64_encoded_blob×1, env_assignment_secret×1, certificate_pem×1, github_pat×1, key_material×1, openai_api_key×1, private_key_pem×1, secret_value×1, slack_webhook_url×1
+────────────────────────────────────────────────────────────────────────</pre></div>
+  <p class="note">``tfredact scan`` on ``examples/sample.tfstate``: 32 findings across 18 types, each tagged with whether terraform had marked it sensitive.</p>
+</div></body></html>

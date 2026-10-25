@@ -1,0 +1,87 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.9.8",
+  "variables": {
+    "db_password": {
+      "value": "dbP@ss2024!",
+      "type": "string"
+    }
+  },
+  "planned_values": {
+    "root_module": {
+      "resources": [
+        {
+          "address": "aws_instance.web_prod",
+          "mode": "managed",
+          "type": "aws_instance",
+          "name": "web_prod",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 1,
+          "values": {
+            "ami": "ami-0c02fb55b5da9c375",
+            "instance_type": "t3.medium",
+            "password": "Sup3r-Secret!2024",
+            "tags": {
+              "Name": "web-prod-0",
+              "Environment": "production"
+            }
+          },
+          "sensitive_values": {
+            "ami": false,
+            "instance_type": false,
+            "password": true,
+            "tags": {
+              "Name": false,
+              "Environment": false
+            }
+          }
+        },
+        {
+          "address": "random_password.db_master",
+          "mode": "managed",
+          "type": "random_password",
+          "name": "db_master",
+          "provider_name": "registry.terraform.io/hashicorp/random",
+          "schema_version": 2,
+          "values": {
+            "result": "xK9#mQ2$vL7pR4wT",
+            "length": 16,
+            "special": true
+          },
+          "sensitive_values": {
+            "result": true,
+            "length": false,
+            "special": false
+          }
+        },
+        {
+          "address": "aws_secretsmanager_secret_version.api_key",
+          "mode": "managed",
+          "type": "aws_secretsmanager_secret_version",
+          "name": "api_key",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "secret_string": "AKIAIOSFODNN7EXAMPLE_PLACEHOLDER",
+            "description": "primary api key",
+            "status": "AWSCURRENT"
+          },
+          "sensitive_values": {
+            "secret_string": true,
+            "description": false,
+            "status": false
+          }
+        }
+      ]
+    }
+  },
+  "configuration": {
+    "root_module": {
+      "variables": {
+        "db_password": {
+          "default": "dbP@ss2024!"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,139 @@
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+  ~ update in-place
+Terraform will perform the following actions:
+
+  # aws_db_parameter_group.appdb will be updated in-place
+  ~ resource "aws_db_parameter_group" "appdb" {
+        id          = "appdb-prod-pg"
+        name        = "appdb-prod-pg"
+        # (3 unchanged attributes hidden)
+
+      ~ parameters = [
+          {
+                apply_method = "immediate"
+                name         = "log_connections"
+                value        = "on"
+            },
+          {
+                apply_method = "immediate"
+                name         = "log_statement"
+              ~ value        = "ddl" -> "all"
+            },
+        ]
+    }
+
+  # aws_db_instance.legacy_staging_db will be updated in-place
+  ~ resource "aws_db_instance" "legacy_staging_db" {
+        id               = "legacy-staging"
+        identifier       = "legacy-staging"
+        endpoint         = "legacy-staging.cluster-x7y2z3a1b4c6.us-east-1.rds.amazonaws.com:3306"
+        connection_string = "mysql://legacy_svc:m4g!C5tr1a!2026@legacy-staging.cluster-x7y2z3a1b4c6.us-east-1.rds.amazonaws.com:3306/legacy_db"
+        # (20 unchanged attributes hidden)
+
+      ~ master_user_password = (sensitive value) -> (sensitive value)
+    }
+
+  # aws_iam_access_key.app_db_user will be updated in-place
+  ~ resource "aws_iam_access_key" "app_db_user" {
+        id             = "AKIAIOSFODNN7EXAMPLE"
+        key_id         = "AKIAIOSFODNN7EXAMPLE"
+        secret_key_id  = "AKIAIOSFODNN7EXAMPLE"
+        user           = "app-db-user"
+        # (3 unchanged attributes hidden)
+
+      ~ secret     = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" -> "nK4pX8sQ2mV9tR1yZ6wE3bC7fH0jL5dG"
+      ~ secret_key = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" -> "nK4pX8sQ2mV9tR1yZ6wE3bC7fH0jL5dG"
+    }
+
+  # aws_instance.app_worker will be updated in-place
+  ~ resource "aws_instance" "app_worker" {
+        id            = "i-0b9f8a7c6d5e43210"
+        ami           = "ami-0c02fb55956c7d316"
+        instance_type = "t3.medium"
+        public_ip     = "34.201.77.194"
+        # (24 unchanged attributes hidden)
+
+      ~ password = "Pr0d!AppDb2026#Secure" -> "N3w!W0rk3r#2026x"
+    }
+
+  # aws_secretsmanager_secret_version.appdb_credentials["appdb"] will be updated in-place
+  ~ resource "aws_secretsmanager_secret_version" "appdb_credentials" {
+        id         = "arn:aws:secretsmanager:us-east-1:123456789012:secret:appdb-credentials-6f2a:versionId:a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+        name       = "appdb-credentials"
+        status     = "AWSCURRENT"
+        version_id = "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+        # (4 unchanged attributes hidden)
+
+      ~ secret_string = (sensitive value) -> (sensitive value)
+    }
+
+  # random_password.db_master will be updated in-place
+  ~ resource "random_password" "db_master" {
+        id      = "622f8a1e-4c3b-7d90-a1f2-5e6b7c8d9e0f"
+        length  = 28
+        lower   = true
+        upper   = true
+        number  = true
+        special = true
+        # (5 unchanged attributes hidden)
+
+      ~ result = (sensitive value) -> (sensitive value)
+    }
+
+  # aws_instance.web_prod will be created
+  + resource "aws_instance" "web_prod" {
+      + ami                    = "ami-0fb653ca2d3203ac1"
+      + instance_type          = "t3.large"
+      + availability_zone      = "us-east-1a"
+      + subnet_id              = "subnet-0abcd1234ef567890"
+      + vpc_security_group_ids = ["sg-0ef1234567890abcd"]
+      + iam_instance_profile   = "web-prod-role"
+      + key_name               = "prod-deploy-key"
+      + password               = (sensitive value)
+      + tags                   = {
+          + "Environment" = "production"
+          + "Name"        = "web-prod-01"
+        }
+      + user_data = <<-EOT
+          #!/bin/bash
+          export GITHUB_TOKEN=ghp_7AbC9xY2zK4mN6pQ8rS1tU3vW5xZ7aB9cD
+          export JWT_SECRET=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJwcm9kLWFkbWluIiwiaWF0IjoxNzE0MjYyMDAwLCJleHAiOjE3MTY4NTQwMDB9.Zk9mN3R2YzBhQ1Q5b3lE7wP4sL1d8nH5d40c
+          export REDIS_PASSWORD=R3w1s!Cache#2026x
+          echo "deploy token: AKIAIOSFODNN7EXAMPLE"
+          EOT
+      + user_data_replace_on_change = false
+    }
+
+  # module.notifications.aws_ssm_parameter.aws_sm_parameter["slack"] will be created
+  + resource "aws_ssm_parameter" "aws_sm_parameter" {
+      + id     = (known after apply)
+      + key_id = "arn:aws:kms:us-east-1:123456789012:key/9c8d7e6f-5a4b-3c2d-1e0f-9a8b7c6d5e4f"
+      + name   = "/prod/slack/webhook-token"
+      + type   = "SecureString"
+      + value  = (sensitive value)
+    }
+
+Plan: 4 to add, 6 to change, 0 to destroy.
+
+Changes to Outputs:
+  + slack_webhook_token = "SL3ckW3bHookT0k3n-Abc9"
+  ~ db_password         = "Pr0d!AppDb2026#Secure" -> (sensitive value)
+
+Warning: "apply_method": [DEPRECATED] The `apply_method` attribute in the `parameter` block has been deprecated in favor of setting `apply_method` on the `aws_db_parameter_group` resource.
+  with aws_db_parameter_group.appdb,
+  on main.tf line 21, in resource "aws_db_parameter_group" "appdb":
+    21:     apply_method = "immediate"
+
+Note: Objects have changed outside of Terraform
+
+  on main.tf line 40, in resource "aws_instance" "app_worker":
+    40:   password      = var.ssh_private_key
+
+The infrastructure that was already deployed has been modified outside of
+Terraform. Terraform will attempt to reconcile the state with the actual
+configuration on the next apply, but the planned changes above may be
+incomplete or stale as a result.
+
+Please review the changes carefully before applying them.
