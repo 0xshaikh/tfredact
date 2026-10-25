@@ -555,8 +555,34 @@ def _run(args, stdin=None):
     proc = subprocess.run(
         [sys.executable, "-m", "tfredact.cli", *args],
         input=stdin, capture_output=True, text=True, timeout=60, cwd=ROOT,
+        env={**os.environ, "PYTHONIOENCODING": "utf-8"},
     )
     return proc
+
+
+def test_piped_stdout_is_reconfigured_to_utf8():
+    """A pipe on Windows carries the ANSI codepage, which cannot encode the
+    box-drawing and status glyphs the reports use. ``_init_streams`` must switch
+    it to UTF-8, otherwise ``tfredact scan | tee log`` dies with
+    UnicodeEncodeError halfway through the report.
+    """
+    import io
+
+    from tfredact.cli import _init_streams
+
+    glyphs = "─ ✓ ● ✗ · … × →"
+    buffer = io.BytesIO()
+    fake = io.TextIOWrapper(buffer, encoding="cp1252", errors="strict")
+    saved = sys.stdout
+    try:
+        sys.stdout = fake
+        _init_streams()
+        assert fake.encoding.lower() == "utf-8"
+        fake.write(glyphs)
+        fake.flush()
+    finally:
+        sys.stdout = saved
+    assert buffer.getvalue() == glyphs.encode("utf-8")
 
 
 class TestCLI:

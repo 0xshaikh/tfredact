@@ -379,12 +379,35 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def _init_streams() -> None:
+    """Make piped output safe on codepages that lack box-drawing characters.
+
+    When stdout is a console, the terminal owns the encoding and we leave it
+    alone. When it is a pipe -- the common case, and the one that matters for
+    ``tfredact scan | tee log`` -- Windows hands us the ANSI codepage, which
+    cannot encode ``─`` or ``✓`` and raises UnicodeEncodeError instead of
+    truncating. UTF-8 also keeps ``--json`` output byte-correct.
+    """
+    for stream in (sys.stdout, sys.stderr):
+        if stream is None or stream.isatty():
+            continue
+        if not hasattr(stream, "reconfigure"):
+            continue
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except (ValueError, OSError):
+            # Detached buffer or a stream that refuses reconfiguration: the
+            # original behaviour stands rather than masking it.
+            pass
+
+
 def main(argv: Optional[Sequence[str]] = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     if not getattr(args, "command", None):
         parser.print_help()
         return EXIT_ERROR
+    _init_streams()
     try:
         if getattr(args, "strict", False):
             args.fail_on_findings = True

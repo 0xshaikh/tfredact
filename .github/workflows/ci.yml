@@ -15,6 +15,10 @@ jobs:
   test:
     name: pytest (python ${{ matrix.python }}, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
+    env:
+      # Windows consoles are not UTF-8 by default; the reports use box-drawing
+      # and status glyphs. UTF-8 mode keeps the matrix comparable across OSes.
+      PYTHONUTF8: "1"
     strategy:
       fail-fast: false
       matrix:
